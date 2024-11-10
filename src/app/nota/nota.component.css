@@ -1,0 +1,17 @@
+
+
+    .table-row:nth-child(even) {
+        background-color: #f2f2f7;
+    }
+    .table-row:nth-child(odd) {
+        background-color: #e8f0fe;
+    }
+    .table-hover tr:hover {
+        background-color: #d1e7dd;
+    }
+    .shadow {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card-header.bg-dark {
+        background-color: #343a40;
+    }

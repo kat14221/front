@@ -1,0 +1,86 @@
+<div class="container mt-4 text-center">
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            <h3 class="mb-0">
+                <i class="pi pi-table mr-2"></i> Lista de Notas
+            </h3>
+        </div>
+        <div class="card-body">
+            <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-success mb-3" (click)="showDialogCreate()" style="margin-bottom: 20px;"></button>
+            
+            <div class="d-flex justify-content-center mb-4">
+                <button pButton label="Exportar a PDF" icon="pi pi-file-pdf" (click)="exportToPDF()" class="btn btn-danger mx-2"></button>
+                <button pButton label="Exportar a Excel" icon="pi pi-file-excel" (click)="exportToExcel()" class="btn btn-success mx-2"></button>
+                <button pButton label="Exportar a TXT" icon="pi pi-file" (click)="exportToTXT()" class="btn btn-primary mx-2"></button>
+            </div>
+
+            <div class="table-responsive d-flex justify-content-center mt-3">
+                <p-table [value]="notas" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }" [rowsPerPageOptions]="[5, 10, 20]" class="table-striped table-hover shadow">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>ID</th>
+                            <th>Alumno</th>
+                            <th>Curso</th>
+                            <th>Nota 1</th>
+                            <th>Nota 2</th>
+                            <th>Nota 3</th>
+                            <th>Promedio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-nota>
+                        <tr class="table-row">
+                            <td>{{ nota.id }}</td>
+                            <td>{{ nota.alumnos?.nombre || 'Sin asignar' }}</td>
+                            <td>{{ nota.cursos?.nombre || 'Sin asignar' }}</td>
+                            <td>{{ nota.nota1 }}</td>
+                            <td>{{ nota.nota2 }}</td>
+                            <td>{{ nota.nota3 }}</td>
+                            <td>{{ nota.promedio }}</td>
+                            <td>
+                                <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded btn btn-outline-primary me-2" (click)="showDialogEdit(nota.id)"></button>
+                                <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded btn btn-outline-danger" (click)="deleteNota(nota.id)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="{{titulo}}" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <div class="mb-3 d-flex align-items-center">
+        <i class="pi pi-book mr-2"></i>
+        <label for="cursos" class="form-label font-weight-bold w-100">Curso:</label>
+        <p-dropdown [options]="cursos" [(ngModel)]="selectedCurso" optionLabel="nombre" placeholder="Seleccione Curso" class="form-control"></p-dropdown>
+    </div>
+    <div class="mb-3 d-flex align-items-center">
+        <i class="pi pi-user mr-2"></i>
+        <label for="alumnos" class="form-label font-weight-bold w-100">Alumno:</label>
+        <p-dropdown [options]="alumnos" [(ngModel)]="selectedAlumno" optionLabel="nombre" placeholder="Seleccione Alumno" class="form-control"></p-dropdown>
+    </div>
+    <div class="mb-3 d-flex align-items-center">
+        <i class="pi pi-chart-line mr-2"></i>
+        <label for="nota1" class="form-label font-weight-bold w-100">Nota 1:</label>
+        <input pInputText [(ngModel)]="nota.nota1" type="number" class="form-control" />
+    </div>
+    <div class="mb-3 d-flex align-items-center">
+        <i class="pi pi-chart-line mr-2"></i>
+        <label for="nota2" class="form-label font-weight-bold w-100">Nota 2:</label>
+        <input pInputText [(ngModel)]="nota.nota2" type="number" class="form-control" />
+    </div>
+    <div class="mb-3 d-flex align-items-center">
+        <i class="pi pi-chart-line mr-2"></i>
+        <label for="nota3" class="form-label font-weight-bold w-100">Nota 3:</label>
+        <input pInputText [(ngModel)]="nota.nota3" type="number" class="form-control" />
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+        <p-button label="Cancelar" severity="secondary" (click)="visible = false; limpiar()" class="me-2" icon="pi pi-times" />
+        <p-button label="{{opc}}" (click)="opcion()" icon="pi pi-check" />
+    </div>
+</p-dialog>
+
+<p-toast></p-toast>
+
